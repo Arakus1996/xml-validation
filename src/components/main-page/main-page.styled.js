@@ -8,6 +8,7 @@ export const Wrapper = styled.div`
 `
 export const ToolsBlock = styled.div`
   box-sizing: border-box;
+  width: 280px;
   min-width: 280px;
   background-color: ${colors.blue[100]};
   padding: 24px 16px;

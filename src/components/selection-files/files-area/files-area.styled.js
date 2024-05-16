@@ -1,16 +1,31 @@
 import styled from 'styled-components'
 import { colors } from '../../../styles/colors'
 
-// TODO: подумать про скрол
 export const Wrapper = styled.div`
+  box-sizing: border-box;
   position: relative;
   height: 445px;
   min-height: 240px;
-  width: 100%;
+  width: 236px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    border-radius: 20px;
+    background-color: #d0d3d7;
+  }
+`
+export const Block = styled.div`
+  width: 248px;
   background-color: ${colors.system.white};
   border: 1px solid ${colors.blue[50]};
   border-radius: 10px;
 `
+
 export const Helper = styled.p`
   position: absolute;
   top: 45%;
@@ -24,8 +39,8 @@ export const Helper = styled.p`
 `
 
 export const Ul = styled.ul`
-  padding: 20px 16px;
   display: flex;
+  margin: 0 16px;
   flex-direction: column;
   gap: 18px;
 `

@@ -1,11 +1,10 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { Header } from '../shared/header/header'
 import { Preloader } from '../shared/preloader/preloader'
 import {
   Block,
   ErrorIcon,
   ReadyIcon,
-  StatusIcon,
   SuccessIcon,
   Wrapper,
 } from './processes.styled'
@@ -15,9 +14,6 @@ import { PopUpError } from '../pop-up/pop-up'
 
 const StatusApp = ({ path, files }) => {
   const { store } = useContext(StoreContext)
-  console.log(files)
-
-  // сделать ограничение по файлам чтобы попадали xml
 
   if (store.isLoading === true) {
     return <Status text={'Выполняется обработка файлов...'} Icon={Preloader} />
@@ -38,14 +34,25 @@ const StatusApp = ({ path, files }) => {
   }
 }
 
-export const Processes = ({ path, files, error, clearError }) => {
+export const Processes = ({ path, files }) => {
+  const { store, setStore } = useContext(StoreContext)
+
+  const clearError = () => {
+    setStore({ ...store, error: null })
+  }
   return (
     <Wrapper>
       <Header appName={'Название приложения'} />
       <Block>
         <StatusApp path={path} files={files} />
       </Block>
-      {error && <PopUpError clearError={clearError} />}
+      {store.error && (
+        <PopUpError
+          title={store.error.title}
+          text={store.error.text}
+          clearError={clearError}
+        />
+      )}
     </Wrapper>
   )
 }

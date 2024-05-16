@@ -14,6 +14,8 @@ export const Wrapper = styled.div`
 `
 export const Span = styled.span`
   overflow: hidden;
+  word-break: break-all;
+  line-height: 20px;
 `
 export const Icon = styled(DirectorySVG)`
   width: 12px;

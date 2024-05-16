@@ -1,24 +1,20 @@
 const { app, BrowserWindow } = require('electron')
-const AutoLaunch = require('auto-launch')
 
-// const appLauncher = new AutoLaunch({
-//   name: 'xml-validation',
-// })
-
-// if (localStorage.getItem('isAuto') === true) {
-//   appLauncher.enable()
-// } else {
-//   appLauncher.disable()
-// }
+const path = require('path')
 
 const createWindow = () => {
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1200,
+    height: 900,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: true,
+    },
   })
   win.setMenuBarVisibility(false)
   //prod
-  //   win.loadFile("index.html");
+  // win.loadFile(path.join(__dirname, 'public'), 'index.html')
+  // win.loadFile('index.html')
   //dev
   win.loadURL('http://localhost:3000')
 }

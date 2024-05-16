@@ -6,6 +6,7 @@ export const Wrapper = styled.div`
   flex-direction: column;
   gap: 40px;
   height: 100%;
+  width: 100%;
 `
 export const Title = styled.h2`
   font-weight: 500;

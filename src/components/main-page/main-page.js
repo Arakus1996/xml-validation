@@ -1,30 +1,28 @@
 import { createContext, useMemo, useState } from 'react'
 import { ControlPanel } from '../control-panel/control-panel'
 import { Processes } from '../processes/processes'
-import { SelectionFiles } from '../selection-files/selection-files'
 import { ToolsBlock, Wrapper } from './main-page.styled'
-import { Settings } from '../settings/settings'
-import { PopUpError } from '../pop-up/pop-up'
 import { Tools } from '../tools/tools'
 
 export const StoreContext = createContext({})
 
-// TODO: сделать попап попапом
 export const MainPage = () => {
   const [store, setStore] = useState({
     isLoading: false,
+    status: null,
+    error: null,
   })
   const value = useMemo(() => ({ store, setStore }), [store])
 
   const [files, setFiles] = useState([])
   const [path, setPath] = useState('')
+  const [fullPath, setFullPath] = useState('')
+  console.log(fullPath)
 
   const [currentControl, setCurrentControl] = useState('files')
   const handleControl = control => {
     setCurrentControl(control)
   }
-
-  const [error, clearError] = useState('err')
 
   return (
     <StoreContext.Provider value={value}>
@@ -40,14 +38,11 @@ export const MainPage = () => {
             setFiles={setFiles}
             path={path}
             setPath={setPath}
+            setFullPath={setFullPath}
+            fullPath={fullPath}
           />
         </ToolsBlock>
-        <Processes
-          path={path}
-          files={files}
-          error={error}
-          clearError={clearError}
-        />
+        <Processes path={path} files={files} />
       </Wrapper>
     </StoreContext.Provider>
   )

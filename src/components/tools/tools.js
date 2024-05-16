@@ -1,8 +1,15 @@
 import { SelectionFiles } from '../selection-files/selection-files'
 import { Settings } from '../settings/settings'
-import { Wrapper } from './tools.styled'
 
-export const Tools = ({ currentControl, files, setFiles, path, setPath }) => {
+export const Tools = ({
+  currentControl,
+  files,
+  setFiles,
+  path,
+  setPath,
+  setFullPath,
+  fullPath,
+}) => {
   if (currentControl === 'files') {
     return (
       <SelectionFiles
@@ -10,6 +17,8 @@ export const Tools = ({ currentControl, files, setFiles, path, setPath }) => {
         setFiles={setFiles}
         path={path}
         setPath={setPath}
+        setFullPath={setFullPath}
+        fullPath={fullPath}
       />
     )
   }

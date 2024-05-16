@@ -4,34 +4,56 @@ import { Info } from '../../shared/info/info'
 import { InputFile } from '../../shared/input-file/input-file'
 import { Directory, P, Path, Title, Wrapper } from './selection-form.styled'
 import { StoreContext } from '../../main-page/main-page'
+import { checkError } from '../../../utils/errors'
+import { validation } from '../../../validation/validation'
 
-export const SelectionForm = ({ handleChange, path, directory, files }) => {
+export const SelectionForm = ({
+  handleChange,
+  path,
+  directory,
+  files,
+  fullPath,
+}) => {
   const { store, setStore } = useContext(StoreContext)
-  //TODO: доделать
-  const stop = async () => {
-    await new Promise(resolve => {
-      setTimeout(() => {
-        resolve()
-      }, 2000)
+
+  const fetchFiles = async fullPath => {
+    const notValid = validation(files)
+    if (notValid) {
+      console.log(`VLAD: ${notValid.error}`)
+      setStore({
+        ...store,
+        isLoading: false,
+        error: checkError(notValid.error, notValid.payload),
+      })
+      return
+    }
+
+    const response = await fetch('http://localhost:8080/xml', {
+      method: 'POST',
+
+      body: fullPath,
     })
-  }
-  const fetchFiles = async () => {
-    // const response = await fetch('url', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json;charset=utf-8',
-    //   },
-    //   body: '',
-    // })
-    // const result = await response.blob
-    await stop()
-    setStore({ ...store, isLoading: false, status: 200, data: 'my data' })
-    // return { status: 200, data: 'my data' }
+
+    if (response.status === 400) {
+      const data = await response.json()
+      const error = data.message?.split(':')
+      let fileName = error?.length === 2 ? error[1] : null
+
+      setStore({
+        ...store,
+        isLoading: false,
+        error: checkError(error?.[0], fileName),
+      })
+    }
+
+    if (response.status === 200) {
+      setStore({ ...store, isLoading: false, status: response.status })
+    }
   }
 
   const handleClick = () => {
     setStore({ ...store, isLoading: true })
-    fetchFiles()
+    fetchFiles(fullPath)
   }
   return (
     <Wrapper>

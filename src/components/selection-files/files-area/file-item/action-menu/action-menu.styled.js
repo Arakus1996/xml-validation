@@ -10,6 +10,7 @@ export const Wrapper = styled.div`
   border-radius: 4px;
   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
   background-color: ${colors.system.white};
+  z-index: 100;
 `
 export const Li = styled.li`
   padding: 8px 12px;

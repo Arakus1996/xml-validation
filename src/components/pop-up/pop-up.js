@@ -19,7 +19,7 @@ export const PopUpError = ({ title, text, helper, clearError }) => {
       <Wrapper>
         <Head>
           <H2>Ошибка</H2>
-          <Close onClick={() => clearError('')} />
+          <Close onClick={clearError} />
         </Head>
         <Body>
           <Title>
@@ -30,7 +30,7 @@ export const PopUpError = ({ title, text, helper, clearError }) => {
           <Text>{helper}</Text>
         </Body>
         <Btn>
-          <PopUpButton onClick={() => clearError('')} />
+          <PopUpButton onClick={clearError} />
         </Btn>
       </Wrapper>
     </Modal>

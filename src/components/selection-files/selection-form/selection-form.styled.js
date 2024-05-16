@@ -22,10 +22,12 @@ export const P = styled.p`
 export const Path = styled.span`
   text-overflow: clip;
   overflow: hidden;
+  white-space: nowrap;
 `
 export const Directory = styled.span`
   text-align: right;
   direction: rtl;
   text-overflow: ellipsis;
+  white-space: nowrap;
   overflow: hidden;
 `
