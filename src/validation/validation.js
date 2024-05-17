@@ -23,6 +23,9 @@ export const validation = files => {
     return { error: 'tooManyXSD', payload: xsd.length }
   }
   if (xml.length > 10) {
-    return { error: 'tooManyXSD', payload: xml.length }
+    return { error: 'tooManyXML', payload: xml.length }
+  }
+  if (!xml.length) {
+    return { error: 'notFoundXML' }
   }
 }
