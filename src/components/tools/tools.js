@@ -23,6 +23,6 @@ export const Tools = ({
     )
   }
   if (currentControl === 'settings') {
-    return <Settings />
+    return <Settings path={path} />
   }
 }

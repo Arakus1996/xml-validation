@@ -11,14 +11,15 @@ export const MainPage = () => {
     isLoading: false,
     status: null,
     error: null,
+    fileText: null,
+    logs: null,
   })
-  const value = useMemo(() => ({ store, setStore }), [store])
 
+  const value = useMemo(() => ({ store, setStore }), [store])
   const [files, setFiles] = useState([])
   const [path, setPath] = useState('')
   const [fullPath, setFullPath] = useState('')
-  console.log(fullPath)
-
+  console.log(store.fileText)
   const [currentControl, setCurrentControl] = useState('files')
   const handleControl = control => {
     setCurrentControl(control)

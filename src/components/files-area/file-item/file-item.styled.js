@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { ReactComponent as DirectorySVG } from '../../../../images/directory.svg'
-import { colors } from '../../../../styles/colors'
+import { ReactComponent as DirectorySVG } from '../../../images/directory.svg'
+import { colors } from '../../../styles/colors'
 
 export const Wrapper = styled.div`
   position: relative;

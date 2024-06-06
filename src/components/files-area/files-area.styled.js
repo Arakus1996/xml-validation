@@ -1,13 +1,11 @@
 import styled from 'styled-components'
-import { colors } from '../../../styles/colors'
+import { colors } from '../../styles/colors'
 
 export const Wrapper = styled.div`
   box-sizing: border-box;
   position: relative;
   height: 100%;
   width: 236px;
-  /* margin-top: 20px;
-  margin-bottom: 20px; */
 
   overflow-y: scroll;
   &::-webkit-scrollbar {
@@ -23,10 +21,11 @@ export const Block = styled.div`
   background-color: ${colors.system.white};
   border: 1px solid ${colors.blue[50]};
   border-radius: 10px;
-  height: 400px;
   min-height: 200px;
+  height: ${({ $size }) => ($size === 's' ? 300 : 400)}px;
   padding-top: 20px;
   padding-bottom: 20px;
+  position: relative;
 `
 
 export const Helper = styled.p`

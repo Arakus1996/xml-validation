@@ -1,8 +1,8 @@
 import { useContext, useState } from 'react'
-import { FilesArea } from './files-area/files-area'
-import { Title, Wrapper } from './selection-files.styled'
+import { Head, Refresh, Title, Wrapper } from './selection-files.styled'
 import { SelectionForm } from './selection-form/selection-form'
 import { StoreContext } from '../main-page/main-page'
+import { FilesArea } from '../files-area/files-area'
 
 export const SelectionFiles = ({
   files,
@@ -16,36 +16,49 @@ export const SelectionFiles = ({
   const { store, setStore } = useContext(StoreContext)
 
   const handleChange = e => {
-    setStore({ ...store, status: null })
-    setFiles(Array.from(e.target.files))
+    const pathArr = e.target.files[0].path.split('\\')
+    pathArr.pop()
+    const path = pathArr.join('\\')
+    setFullPath(path)
+    setFiles(window.electron.readDirectory(path))
+    setDirectory(pathArr[pathArr.length - 1])
+    setPath(`${pathArr.join('/')}/`)
+    setStore({ ...store, status: null, fileText: null })
 
-    if (e.target.files[0]?.path) {
-      const path = e.target.files[0].path.split('\\')
-      path.pop()
-      setFullPath(path.join('\\'))
-      setDirectory(path.pop())
-      setPath(`${path.join('/')}/`)
-    }
     e.target.value = ''
+  }
+
+  const handleRefresh = () => {
+    setFiles(window.electron.readDirectory(fullPath))
   }
 
   const handleDelete = fileName => {
     window.electron.deleteFile(`${fullPath}\\${fileName}`)
-    setFiles(files.filter(file => file.name !== fileName))
+    setFiles(files.filter(file => file !== fileName))
   }
 
   const handleOpenDir = () => {
     window.electron.openDirectory(`${fullPath}`)
   }
 
+  const handleRefreshBtn = () => {
+    handleRefresh()
+    setStore({ ...store, fileText: null, status: null })
+  }
+
   return (
     <Wrapper>
-      <Title>Файлы</Title>
+      <Head>
+        <Title>Файлы</Title>
+        <Refresh onClick={handleRefreshBtn} />
+      </Head>
+
       <FilesArea
         files={files}
         fullPath={fullPath}
         handleDelete={handleDelete}
         handleOpenDir={handleOpenDir}
+        helper={'Файлы для обработки не найдены'}
       />
       <SelectionForm
         files={files}
@@ -53,6 +66,7 @@ export const SelectionFiles = ({
         path={path}
         fullPath={fullPath}
         directory={directory}
+        handleRefresh={handleRefresh}
       />
     </Wrapper>
   )

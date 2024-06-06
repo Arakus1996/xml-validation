@@ -33,3 +33,9 @@ export const ErrorIcon = styled(AttentionSVG)`
   height: 40px;
   color: ${colors.system.red};
 `
+
+export const TextArea = styled.textarea`
+  resize: none;
+  width: 90%;
+  height: 75%;
+`

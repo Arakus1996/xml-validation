@@ -6,6 +6,18 @@ import { Directory, P, Path, Title, Wrapper } from './selection-form.styled'
 import { StoreContext } from '../../main-page/main-page'
 import { checkError } from '../../../utils/errors'
 import { validation } from '../../../validation/validation'
+import { getDate } from '../../../utils/get-date'
+
+const getLog = async () => {
+  const response = await fetch('http://localhost:8080/xml/logs')
+  const logs = await response.text()
+  return logs
+}
+
+const writeLogs = (path, logs) => {
+  window.electron.mkdir(`${path}/logs`)
+  window.electron.writeFile(`${path}/logs/log-${getDate()}.txt`, logs)
+}
 
 export const SelectionForm = ({
   handleChange,
@@ -13,17 +25,18 @@ export const SelectionForm = ({
   directory,
   files,
   fullPath,
+  handleRefresh,
 }) => {
   const { store, setStore } = useContext(StoreContext)
 
   const fetchFiles = async fullPath => {
     const notValid = validation(files)
     if (notValid) {
-      console.log(`VLAD: ${notValid.error}`)
       setStore({
         ...store,
         isLoading: false,
         error: checkError(notValid.error, notValid.payload),
+        fileText: null,
       })
       return
     }
@@ -33,6 +46,8 @@ export const SelectionForm = ({
 
       body: fullPath,
     })
+    const logs = await getLog()
+    writeLogs(path, logs)
 
     if (response.status === 400) {
       const data = await response.json()
@@ -43,18 +58,27 @@ export const SelectionForm = ({
         ...store,
         isLoading: false,
         error: checkError(error?.[0], fileName),
+        fileText: null,
       })
     }
 
     if (response.status === 200) {
-      setStore({ ...store, isLoading: false, status: response.status })
+      setStore({
+        ...store,
+        isLoading: false,
+        status: response.status,
+        error: null,
+        fileText: null,
+      })
+      handleRefresh(fullPath)
     }
   }
 
   const handleClick = () => {
-    setStore({ ...store, isLoading: true })
+    setStore({ ...store, fileText: null, isLoading: true })
     fetchFiles(fullPath)
   }
+
   return (
     <Wrapper>
       <Title>Путь к каталогу</Title>

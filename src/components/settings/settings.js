@@ -1,14 +1,26 @@
-import { useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Setting } from './setting/setting'
 import { Title, Wrapper } from './settings.styled'
+import { FilesArea } from '../files-area/files-area'
+import { StoreContext } from '../main-page/main-page'
 
-export const Settings = () => {
+export const Settings = ({ path }) => {
+  const fullPath = `${path}/logs`
+  const { store, setStore } = useContext(StoreContext)
+
   const [isUpdate, setIsUpdate] = useState(
     !!Number(localStorage.getItem('isUpdate')) || false
   )
   const [isAutostart, setIsAutostart] = useState(
     !!Number(localStorage.getItem('isAuto')) || false
   )
+
+  useEffect(() => {
+    if (path) {
+      const logs = window.electron.readDirectory(fullPath)
+      setStore({ ...store, logs: logs })
+    }
+  }, [])
 
   const handleAutostart = () => {
     const value = isAutostart
@@ -37,6 +49,7 @@ export const Settings = () => {
         isChecked={isUpdate}
         setIsChecked={handleUpdate}
       />
+      <FilesArea size='s' files={store.logs} icon={false} fullPath={fullPath} />
     </Wrapper>
   )
 }

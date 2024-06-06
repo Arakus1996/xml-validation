@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import { ActionMenu } from './action-menu/action-menu'
 import { Icon, Span, Wrapper } from './file-item.styled'
-import { useClickOutside } from '../../../../hooks/use-click-outside'
+import { useClickOutside } from '../../../hooks/use-click-outside'
 
 export const FileItem = ({
   file,

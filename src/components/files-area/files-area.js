@@ -1,19 +1,26 @@
 import { Block, Helper, Li, Ul, Wrapper } from './files-area.styled'
 import { FileItem } from './file-item/file-item'
 
-export const FilesArea = ({ files, fullPath, handleDelete, handleOpenDir }) => {
+export const FilesArea = ({
+  files,
+  fullPath,
+  handleDelete,
+  handleOpenDir,
+  helper,
+  size,
+}) => {
   return (
-    <Block>
+    <Block $size={size}>
       <Wrapper>
-        {files.length ? (
+        {files?.length ? (
           <Ul>
             {files.map((item, index) => (
               <Li key={index}>
                 <FileItem
-                  file={item.name}
+                  file={item}
                   key={index}
                   fullPath={fullPath}
-                  fileName={item.name}
+                  fileName={item}
                   handleDelete={handleDelete}
                   handleOpenDir={handleOpenDir}
                 />
@@ -21,7 +28,7 @@ export const FilesArea = ({ files, fullPath, handleDelete, handleOpenDir }) => {
             ))}
           </Ul>
         ) : (
-          <Helper>Файлы для обработки не найдены</Helper>
+          <Helper>{helper}</Helper>
         )}
       </Wrapper>
     </Block>

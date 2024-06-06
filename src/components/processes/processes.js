@@ -6,6 +6,7 @@ import {
   ErrorIcon,
   ReadyIcon,
   SuccessIcon,
+  TextArea,
   Wrapper,
 } from './processes.styled'
 import { Status } from './status/status'
@@ -40,11 +41,16 @@ export const Processes = ({ path, files }) => {
   const clearError = () => {
     setStore({ ...store, error: null })
   }
+
   return (
     <Wrapper>
-      <Header appName={'Название приложения'} />
+      <Header appName={'Иннопарсер'} />
       <Block>
-        <StatusApp path={path} files={files} />
+        {store.fileText ? (
+          <TextArea disabled value={store.fileText} />
+        ) : (
+          <StatusApp path={path} files={files} />
+        )}
       </Block>
       {store.error && (
         <PopUpError

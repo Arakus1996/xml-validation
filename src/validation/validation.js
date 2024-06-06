@@ -4,12 +4,12 @@ export const validation = files => {
   const noValidFiles = []
 
   files.forEach(file => {
-    if (file.name.endsWith('.xml')) {
-      xml.push(file.name)
-    } else if (file.name.endsWith('.xsd')) {
-      xsd.push(file.name)
+    if (file.endsWith('.xml')) {
+      xml.push(file)
+    } else if (file.endsWith('.xsd')) {
+      xsd.push(file)
     } else {
-      noValidFiles.push(file.name)
+      noValidFiles.push(file)
     }
   })
 
